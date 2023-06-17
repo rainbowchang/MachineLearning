@@ -6,7 +6,7 @@ namespace MatrixLibrary.MatrixGroup
 {
     public class Matrix
     {
-        protected readonly int _rows;
+        protected int _rows;
         /// <summary>
         /// 矩阵的行数
         /// </summary>
@@ -18,7 +18,7 @@ namespace MatrixLibrary.MatrixGroup
             }
 
         }
-        protected readonly int _cols;
+        protected int _cols;
         /// <summary>
         /// 矩阵的列数
         /// </summary>
@@ -46,8 +46,12 @@ namespace MatrixLibrary.MatrixGroup
             protected internal set
             {
                 _items = value;
+                _rows = _items.GetLength(0);
+                _cols = _items.GetLength(1);
             }
         }
+
+        protected internal Matrix() { }
 
         public Matrix(int rows, int cols)
         {
@@ -65,6 +69,13 @@ namespace MatrixLibrary.MatrixGroup
             _rows = matrix.Rows;
             _cols = matrix.Cols;
             _items = new double[_rows, _cols];
+        }
+
+        public Matrix(double[,] items)
+        {
+            this._items = items;
+            _rows = this._items.GetLength(0);
+            _cols = this._items.GetLength(1);
         }
 
         /// <summary>
@@ -202,16 +213,14 @@ namespace MatrixLibrary.MatrixGroup
             {
                 for (int c = 1; c <= Cols; c++)
                 {
-                    builder.Append(this[r, c]).Append(c == Cols ? ";" : ",");
+                    builder.Append(String.Format("{0:0.0000}", this[r, c])).Append(c == Cols ? ";" : ",");
                 }
-
-                if (r != Rows)
-                {
-                    builder.Append(Environment.NewLine);
-                }
+                builder.Append(Environment.NewLine);
             }
             return builder.ToString();
         }
+
+
 
     }
 }
